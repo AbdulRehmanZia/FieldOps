@@ -25,7 +25,7 @@ FieldOps uses a classic SPA + API + database layout:
 - The SPA calls the backend using **Axios** with `withCredentials: true` so the browser includes the httpOnly auth cookie on API requests.
 - The **Express API** validates requests (auth, RBAC, validation) and routes them to controllers.
 - Controllers use **Prisma** to query and mutate data.
-- Prisma talks to **NeonDB PostgreSQL** (serverless Postgres).
+- Prisma talks to **PostgreSQL**.
 
 ASCII flow:
 
@@ -45,7 +45,7 @@ Express API (Node.js)
 Prisma ORM
    |
    v
-NeonDB PostgreSQL
+PostgreSQL
 ```
 
 ## Database Design Rationale

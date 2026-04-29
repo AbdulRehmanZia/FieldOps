@@ -11,7 +11,7 @@ It provides job lifecycle management, role-based access, and in-app notification
 | Runtime | Node.js (ESM) | Team familiarity + async I/O fits API workloads |
 | Framework | Express 5 | Minimal, unopinionated, production-proven |
 | ORM | Prisma + PostgreSQL | Type-safe queries, clean migrations, relational data fits domain |
-| Cloud DB | NeonDB (serverless Postgres) | Free tier, no local Postgres install required |
+| Database | PostgreSQL | Relational data fits the domain; works locally or hosted |
 | Auth | JWT in httpOnly cookie | XSS-safe, stateless, no extra infra |
 | Frontend | React 18 + Vite | Fast DX, component model fits dashboard UIs |
 | Styling | Tailwind CSS v3 | Utility-first, no design system overhead |
@@ -21,7 +21,7 @@ It provides job lifecycle management, role-based access, and in-app notification
 ## Prerequisites
 - Node.js v18+
 - npm
-- NeonDB free account (neon.tech) OR any PostgreSQL instance
+- PostgreSQL instance (local or hosted)
 
 ## Setup Instructions
 
