@@ -1,0 +1,25 @@
+# Node / JS
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# Build outputs
+dist/
+build/
+
+# Tooling
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+

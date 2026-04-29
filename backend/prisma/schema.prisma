@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  password  String
+  name      String
+  role      Role       @default(CLIENT)
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  // Relations
+  jobsCreated        Job[]           @relation("CreatedByUser")
+  jobsAssigned       Job[]           @relation("AssignedTechnician")
+  jobsAsClient       Job[]           @relation("ClientJob")
+  jobNotes           JobNote[]
+  notifications      Notification[]
+
+  @@map("users")
+}
+
+model Job {
+  id            String     @id @default(cuid())
+  title         String
+  description   String
+  status        JobStatus  @default(PENDING)
+  isActive      Boolean    @default(true)
+  scheduledAt   DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  // Foreign Keys
+  clientId      String
+  client        User       @relation("ClientJob", fields: [clientId], references: [id])
+  
+  technicianId  String?
+  technician    User?      @relation("AssignedTechnician", fields: [technicianId], references: [id])
+  
+  createdById   String
+  createdBy     User       @relation("CreatedByUser", fields: [createdById], references: [id])
+
+  // Relations
+  notes         JobNote[]
+  notifications Notification[]
+
+  @@map("jobs")
+}
+
+model JobNote {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  // Foreign Keys
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+
+  @@map("job_notes")
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  // Foreign Keys
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  jobId     String?
+  job       Job?     @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+enum Role {
+  ADMIN
+  TECHNICIAN
+  CLIENT
+}
+
+enum JobStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
